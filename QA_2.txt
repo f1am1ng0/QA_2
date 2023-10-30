@@ -1,0 +1,66 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class FormAutomation {
+
+    public static void main(String[] args) {
+        // Setting up the ChromeDriver path
+        System.setProperty("webdriver.chrome.driver", "path_to_chromedriver.exe");
+
+        // Step 1: Create a chrome driver instance
+        WebDriver driver = new ChromeDriver();
+
+        // Step 2: Maximize the browser window
+        driver.manage().window().maximize();
+
+        // Step 3: Open the HTML file
+        driver.get("file:///path_to_your_html_file/task2.html");
+
+        // Step 4: Fill the Name field with the xPath locator
+        WebElement fName = driver.findElement(By.xpath("//*[@id='fName']"));
+        fName.sendKeys("Your Name");
+
+        // Step 5: Fill last name field with CSS locator
+        WebElement lName = driver.findElement(By.cssSelector("input[data-selenium='lName']"));
+        lName.sendKeys("Your Last Name");
+
+        // Step 6: Enter the date of birth
+        WebElement dob = driver.findElement(By.name("date"));
+        dob.sendKeys("1990-01-01");  // Example date format
+
+        // Step 7: Select the appropriate option in gender
+        WebElement maleRadio = driver.findElement(By.xpath("//input[@name='gender' and following-sibling::label[text()='Male']]"));
+        maleRadio.click();
+
+        // Step 8: Move item 4 to the place of item 1 with action class
+        WebElement item4 = driver.findElement(By.xpath("//ul[@id='sortable']/li[text()='Item 4']"));
+        WebElement item1 = driver.findElement(By.xpath("//ul[@id='sortable']/li[text()='Item 1']"));
+        Actions actions = new Actions(driver);
+        actions.dragAndDrop(item4, item1).perform();
+
+        // Step 9: Click the confirm button in the "?" field
+        WebElement draggable = driver.findElement(By.id("draggable"));
+        WebElement dropTarget = driver.findElement(By.id("confirmBox"));
+        actions.dragAndDrop(draggable, dropTarget).perform();
+
+        // Step 10: Output to the console the text that will be written instead of the question mark
+        String confirmationText = dropTarget.getText();
+        System.out.println(confirmationText);
+
+        // Step 11: Click the submit button
+        WebElement submitBtn = driver.findElement(By.cssSelector("button[data-btn='submitBtn']"));
+        submitBtn.click();
+
+        // Clean up
+        driver.quit();
+    }
+}
+
+
+Make sure you have selenium-java and chromedriver in your project dependencies.
+Replace the path_to_chromedriver.exe with the path to your ChromeDriver executable.
+Replace path_to_your_html_file with the actual path where your task2.html file is located.
+This code assumes that the ChromeDriver version is compatible with your installed Chrome browser.
